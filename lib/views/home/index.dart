@@ -1,3 +1,4 @@
+import 'package:continuation_control/config/router/routes.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
 import 'package:continuation_control/widgets/base/base_bottom_navigation_bar.dart';
 import 'package:continuation_control/widgets/base/base_image_container.dart';
@@ -31,6 +32,17 @@ class IndexState extends State<Index> {
     });
   }
 
+  void moveAdd(
+      BuildContext context, ContinuationViewModel continuationViewModel) {
+    Navigator.pushNamed(
+      context,
+      Routes.add,
+      arguments: {
+        'continuation_view_model': continuationViewModel,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ContinuationViewModel>(
@@ -62,6 +74,10 @@ class IndexState extends State<Index> {
               onTapItem: onTapItem,
               selectIndex: selectIndex,
               barList: barList,
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => moveAdd(context, continuationViewModel),
+              child: const Icon(Icons.add),
             ),
           ),
         );

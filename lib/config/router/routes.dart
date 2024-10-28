@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class Routes {
   static const String home = '/';
   static const String edit = '/edit';
+  static const String add = '/add';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -18,9 +19,17 @@ class Routes {
         final editOptions = settings.arguments as Map;
         return MaterialPageRoute(
           builder: (_) => Edit(
-            continuationViewModel: editOptions['continuation_view_model'] as ContinuationViewModel,
+            continuationViewModel:
+                editOptions['continuation_view_model'] as ContinuationViewModel,
             continuation: editOptions['continuation'] as Continuation,
           ),
+        );
+      case add:
+        final addOptions = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (_) => Edit(
+              continuationViewModel: addOptions['continuation_view_model']
+                  as ContinuationViewModel),
         );
       default:
         return MaterialPageRoute(

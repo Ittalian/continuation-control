@@ -1,3 +1,4 @@
+import 'package:continuation_control/config/router/routes.dart';
 import 'package:continuation_control/models/continuation.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
 import 'package:continuation_control/widgets/base/base_button.dart';
@@ -34,6 +35,7 @@ class EditState extends State<Edit> {
     super.initState();
     if (widget.continuation != null) {
       name = widget.continuation!.name;
+      status = widget.continuation!.status;
     }
   }
 
@@ -57,13 +59,22 @@ class EditState extends State<Edit> {
           status: status,
         ),
       );
+    } else {
+      await widget.continuationViewModel.updateContinuation(
+        Continuation(
+          continuationId: widget.continuation!.continuationId,
+          name: name,
+          status: status,
+        ),
+      );
     }
-    await widget.continuationViewModel.updateContinuation(
-      Continuation(
-        continuationId: widget.continuation!.continuationId,
-        name: name,
-        status: status,
-      ),
+    moveHome(context);
+  }
+
+  void moveHome(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      Routes.home,
     );
   }
 
@@ -85,6 +96,7 @@ class EditState extends State<Edit> {
               option: statusOption,
               hintText: 'ステータス',
               onSelected: (value) => setStatus(value),
+              initSelect: widget.continuation?.status,
             ),
             BaseButton(
               label: '保存',
