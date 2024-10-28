@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="continuation_control"
+        android:label="継続は力"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -39,12 +39,15 @@ class IndexState extends State<Index> {
 
         final pages = [
           HomeIndex(
+            continuationViewModel: continuationViewModel,
             continuations: continuationMap['in_progress'] ?? [],
           ),
           HomeIndex(
+            continuationViewModel: continuationViewModel,
             continuations: continuationMap['completed'] ?? [],
           ),
           HomeIndex(
+            continuationViewModel: continuationViewModel,
             continuations: continuationMap['pending'] ?? [],
           ),
         ];
