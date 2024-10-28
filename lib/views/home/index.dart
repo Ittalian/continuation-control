@@ -1,8 +1,7 @@
 import 'package:continuation_control/view_models/continuation_view_model.dart';
-import 'package:continuation_control/views/home/completed_index.dart';
-import 'package:continuation_control/views/home/in_progress_index.dart';
-import 'package:continuation_control/views/home/pending_index.dart';
 import 'package:continuation_control/widgets/base/base_bottom_navigation_bar.dart';
+import 'package:continuation_control/widgets/base/base_image_container.dart';
+import 'package:continuation_control/widgets/home/home_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +19,11 @@ class IndexState extends State<Index> {
     '完了',
     '中断',
   ];
+  List<String> imagePathes = [
+    'images/in_progress.jpg',
+    'images/completed.jpg',
+    'images/pending.jpg',
+  ];
 
   void onTapItem(int index) {
     setState(() {
@@ -34,25 +38,28 @@ class IndexState extends State<Index> {
         final continuationMap = continuationViewModel.continuationMap;
 
         final pages = [
-          InProgressIndex(
+          HomeIndex(
             continuations: continuationMap['in_progress'] ?? [],
           ),
-          CompletedIndex(
+          HomeIndex(
             continuations: continuationMap['completed'] ?? [],
           ),
-          PendingIndex(
+          HomeIndex(
             continuations: continuationMap['pending'] ?? [],
           ),
         ];
 
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white.withOpacity(0),
-          body: pages[selectIndex],
-          bottomNavigationBar: BaseBottomNavigationBar(
-            onTapItem: onTapItem,
-            selectIndex: selectIndex,
-            barList: barList,
+        return BaseImageContainer(
+          imagePath: imagePathes[selectIndex],
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white.withOpacity(0),
+            body: pages[selectIndex],
+            bottomNavigationBar: BaseBottomNavigationBar(
+              onTapItem: onTapItem,
+              selectIndex: selectIndex,
+              barList: barList,
+            ),
           ),
         );
       },
