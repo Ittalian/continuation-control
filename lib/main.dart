@@ -1,6 +1,12 @@
+import 'package:continuation_control/config/router/routes.dart';
+import 'package:continuation_control/services/continuation_service.dart';
+import 'package:continuation_control/services/doing_service.dart';
+import 'package:continuation_control/view_models/continuation_view_model.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'config/firestore/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +23,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ContinuationViewModel(
+            ContinuationService(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DoingViewModel(
+            DoingService(),
+          ),
+        ),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.home,
+        onGenerateRoute: Routes.generateRoute,
+      ),
     );
   }
 }
