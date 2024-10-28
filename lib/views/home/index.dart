@@ -5,6 +5,8 @@ import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/home/home_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:continuation_control/utils/constants/images_pathes.dart' as images_pathes;
+import 'package:continuation_control/utils/constants/bar_lists.dart' as bar_lists;
 
 class Index extends StatefulWidget {
   const Index({super.key});
@@ -15,16 +17,6 @@ class Index extends StatefulWidget {
 
 class IndexState extends State<Index> {
   var selectIndex = 0;
-  List<String> barList = [
-    '継続中',
-    '完了',
-    '中断',
-  ];
-  List<String> imagePathes = [
-    'images/in_progress.jpg',
-    'images/completed.jpg',
-    'images/pending.jpg',
-  ];
 
   void onTapItem(int index) {
     setState(() {
@@ -65,7 +57,7 @@ class IndexState extends State<Index> {
         ];
 
         return BaseImageContainer(
-          imagePath: imagePathes[selectIndex],
+          imagePath: images_pathes.index[selectIndex],
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white.withOpacity(0),
@@ -73,7 +65,7 @@ class IndexState extends State<Index> {
             bottomNavigationBar: BaseBottomNavigationBar(
               onTapItem: onTapItem,
               selectIndex: selectIndex,
-              barList: barList,
+              barList: bar_lists.index,
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => moveAdd(context, continuationViewModel),
