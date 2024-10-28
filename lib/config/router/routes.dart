@@ -1,5 +1,6 @@
 import 'package:continuation_control/models/continuation.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
+import 'package:continuation_control/views/confirm/confirm.dart';
 import 'package:continuation_control/views/edit/edit.dart';
 import 'package:continuation_control/views/home/index.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class Routes {
   static const String home = '/';
   static const String edit = '/edit';
   static const String add = '/add';
+  static const String confirm = '/confirm';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -30,6 +32,10 @@ class Routes {
           builder: (_) => Edit(
               continuationViewModel: addOptions['continuation_view_model']
                   as ContinuationViewModel),
+        );
+      case confirm:
+        return MaterialPageRoute(
+          builder: (_) => const Confirm(),
         );
       default:
         return MaterialPageRoute(
