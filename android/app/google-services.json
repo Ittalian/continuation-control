@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "740099998658",
+    "project_id": "continuation-control",
+    "storage_bucket": "continuation-control.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740099998658:android:b5200247b2cd7601ca8c5b",
+        "android_client_info": {
+          "package_name": "com.example.continuation_control"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrsu3azpY5jomM8od76scxm9CBKhUDdvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
