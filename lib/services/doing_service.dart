@@ -18,6 +18,9 @@ class DoingService {
   }
 
   Future<void> updateDoing(Doing doing) {
+    if (doing.currentPeriod > doing.maxPeriod) {
+      doing = doing.maxPeriodUpdatedDoing(maxPeriod: doing.currentPeriod);
+    }
     return db.doc(doing.doingId).set(doing.toMap());
   }
 

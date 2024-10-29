@@ -35,4 +35,15 @@ class Doing {
       'goal_period': goalPeriod,
     };
   }
+
+  Doing maxPeriodUpdatedDoing({int? maxPeriod}) {
+    return Doing(
+      doingId: doingId,
+      continuationId: continuationId,
+      name: name,
+      maxPeriod: maxPeriod ?? this.maxPeriod,
+      currentPeriod: currentPeriod,
+      goalPeriod: goalPeriod,
+    );
+  }
 }

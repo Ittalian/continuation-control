@@ -20,7 +20,10 @@ class DoingProgressFactor extends StatelessWidget {
       children: [
         Text(
           doing.name,
-          style: const TextStyle(fontSize: 15),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         BaseTextButton(
           label: '継続達成',
@@ -36,6 +39,13 @@ class DoingProgressFactor extends StatelessWidget {
               ),
             );
           },
+        ),
+        Text(
+          '現在${doing.currentPeriod}日',
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
