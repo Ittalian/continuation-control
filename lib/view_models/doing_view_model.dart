@@ -10,7 +10,7 @@ class DoingViewModel extends ChangeNotifier {
 
   DoingViewModel(this.doingService);
 
-  void fetchDoings(String continuationId) {
+  Future<void> fetchDoings(String continuationId) async {
     doingService.getDoingById(continuationId).listen((doingList) {
       _doings = doingList;
       notifyListeners();

@@ -34,7 +34,7 @@ class ContinuationTile extends StatelessWidget {
 
   Future<void> handleClickContinuationTitle(
       BuildContext context, DoingViewModel doingViewModel) async {
-    doingViewModel.fetchDoings(continuation.continuationId!);
+    await doingViewModel.fetchDoings(continuation.continuationId!);
     moveDoingIndex(context);
   }
 

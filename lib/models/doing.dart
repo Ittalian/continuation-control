@@ -17,7 +17,8 @@ class Doing {
 
   factory Doing.fromMap(Map<String, dynamic> map, String documentId) {
     return Doing(
-      continuationId: documentId,
+      doingId: documentId,
+      continuationId: map['continuation_id'],
       name: map['name'],
       maxPeriod: map['max_period'],
       currentPeriod: map['current_period'],

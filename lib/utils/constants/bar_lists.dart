@@ -5,6 +5,7 @@ const List<String> index = [
 ];
 
 const List<String> confirm = [
-  '棒グラフ',
-  '進捗率',
+  '継続データ',
+  '継続率',
+  '今日の継続',
 ];

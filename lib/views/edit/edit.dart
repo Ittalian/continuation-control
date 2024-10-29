@@ -6,6 +6,8 @@ import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/base/base_select.dart';
 import 'package:continuation_control/widgets/base/base_textform_field.dart';
 import 'package:flutter/material.dart';
+import 'package:continuation_control/utils/constants/option_maps.dart'
+    as option_maps;
 
 class Edit extends StatefulWidget {
   final ContinuationViewModel continuationViewModel;
@@ -24,11 +26,6 @@ class Edit extends StatefulWidget {
 class EditState extends State<Edit> {
   String name = '';
   String status = '';
-  Map<String, String> statusOption = {
-    '継続中': 'in_progress',
-    '完了': 'completed',
-    '中断': 'pending',
-  };
 
   @override
   void initState() {
@@ -93,7 +90,7 @@ class EditState extends State<Edit> {
               initText: widget.continuation?.name,
             ),
             BaseSelect(
-              option: statusOption,
+              option: option_maps.edit,
               hintText: 'ステータス',
               onSelected: (value) => setStatus(value),
               initSelect: widget.continuation?.status,

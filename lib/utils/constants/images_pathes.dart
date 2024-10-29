@@ -7,4 +7,5 @@ const List<String> index = [
 const List<String> confirm = [
   'images/confirm_bar.jpg',
   'images/confirm_progress.jpg',
+  'images/today_continuation.jpg',
 ];

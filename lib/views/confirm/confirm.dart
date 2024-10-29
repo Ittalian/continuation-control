@@ -1,4 +1,5 @@
 import 'package:continuation_control/view_models/doing_view_model.dart';
+import 'package:continuation_control/views/today_continuation/today_continuation.dart';
 import 'package:continuation_control/widgets/base/base_bottom_navigation_bar.dart';
 import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/confirm/confirm_bar.dart';
@@ -36,6 +37,7 @@ class ConfirmState extends State<Confirm> {
         final pages = [
           ConfirmBar(doings: doings),
           ConfirmProgress(doings: doings),
+          TodayContinuation(doings: doings),
         ];
 
         return BaseImageContainer(
