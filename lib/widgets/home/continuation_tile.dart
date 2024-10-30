@@ -42,6 +42,9 @@ class ContinuationTile extends StatelessWidget {
     Navigator.pushNamed(
       context,
       Routes.confirm,
+      arguments: {
+        'continuation_id': continuation.continuationId,
+      },
     );
   }
 

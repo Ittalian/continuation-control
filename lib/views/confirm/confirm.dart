@@ -12,8 +12,10 @@ import 'package:continuation_control/utils/constants/bar_lists.dart'
     as bar_lists;
 
 class Confirm extends StatefulWidget {
+  final String continuationId;
   const Confirm({
     super.key,
+    required this.continuationId,
   });
 
   @override
@@ -37,7 +39,10 @@ class ConfirmState extends State<Confirm> {
         final pages = [
           ConfirmBar(doings: doings),
           ConfirmProgress(doings: doings),
-          TodayContinuation(doings: doings),
+          TodayContinuation(
+            continuationId: widget.continuationId,
+            doingViewModel: doingViewModel,
+          ),
         ];
 
         return BaseImageContainer(

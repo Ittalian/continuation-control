@@ -12,11 +12,13 @@ class ConfirmProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var doing in doings) ConfirmProgressFactor(doing: doing),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (var doing in doings) ConfirmProgressFactor(doing: doing),
+        ],
+      ),
     );
   }
 }

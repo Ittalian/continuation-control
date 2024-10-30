@@ -1,15 +1,29 @@
-import 'package:continuation_control/models/doing.dart';
+import 'package:continuation_control/config/router/routes.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/today_continuation/today_continuation_tile.dart';
 import 'package:flutter/material.dart';
 
 class TodayContinuation extends StatelessWidget {
-  final List<Doing> doings;
+  final String continuationId;
+  final DoingViewModel doingViewModel;
 
   const TodayContinuation({
     super.key,
-    required this.doings,
+    required this.continuationId,
+    required this.doingViewModel,
   });
+
+  moveAddDoing(BuildContext context, DoingViewModel doingViewModel) {
+    Navigator.pushNamed(
+      context,
+      Routes.addDoing,
+      arguments: {
+        'continuation_id': continuationId,
+        'doing_view_model': doingViewModel,
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +35,18 @@ class TodayContinuation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (var doing in doings)
-                TodayContinuationTile(doing: doing),
+              for (var doing in doingViewModel.doings)
+                TodayContinuationTile(
+                  continuationId: continuationId,
+                  doingViewModel: doingViewModel,
+                  doing: doing,
+                ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => moveAddDoing(context, doingViewModel),
+          child: const Icon(Icons.add),
         ),
       ),
     );

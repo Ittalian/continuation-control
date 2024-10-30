@@ -7,5 +7,5 @@ const List<String> index = [
 const List<String> confirm = [
   '継続データ',
   '継続率',
-  '今日の継続',
+  '継続を管理',
 ];

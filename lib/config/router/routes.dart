@@ -1,8 +1,12 @@
 import 'package:continuation_control/models/continuation.dart';
+import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/views/confirm/confirm.dart';
 import 'package:continuation_control/views/edit/edit.dart';
 import 'package:continuation_control/views/home/index.dart';
+import 'package:continuation_control/views/today_continuation/add_doing.dart';
+import 'package:continuation_control/views/today_continuation/edit_doing.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -10,6 +14,8 @@ class Routes {
   static const String edit = '/edit';
   static const String add = '/add';
   static const String confirm = '/confirm';
+  static const String addDoing = 'add_doing';
+  static const String editDoing = 'edit_doing';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -34,8 +40,30 @@ class Routes {
                   as ContinuationViewModel),
         );
       case confirm:
+        final confirmOptions = settings.arguments as Map;
         return MaterialPageRoute(
-          builder: (_) => const Confirm(),
+          builder: (_) => Confirm(
+            continuationId: confirmOptions['continuation_id'] as String,
+          ),
+        );
+      case addDoing:
+        final addDoingOptions = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (_) => AddDoing(
+            continuationId: addDoingOptions['continuation_id'] as String,
+            doingViewModel:
+                addDoingOptions['doing_view_model'] as DoingViewModel,
+          ),
+        );
+      case editDoing:
+        final addDoingOptions = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (_) => EditDoing(
+            continuationId: addDoingOptions['continuation_id'] as String,
+            doingViewModel:
+                addDoingOptions['doing_view_model'] as DoingViewModel,
+            doing: addDoingOptions['doing'] as Doing,
+          ),
         );
       default:
         return MaterialPageRoute(

@@ -48,7 +48,7 @@ class ConfirmProgressFactorState extends State<ConfirmProgressFactor> {
             radius: 60.0,
             lineWidth: 5.0,
             percent: progressPercent,
-            center: Text("${progressPercent * 100}%"),
+            center: Text("${(progressPercent * 100).toStringAsFixed(2)}%"),
             progressColor: Colors.green,
           ),
         ],

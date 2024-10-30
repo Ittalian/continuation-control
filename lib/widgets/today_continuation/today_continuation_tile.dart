@@ -1,12 +1,19 @@
+import 'package:continuation_control/config/router/routes.dart';
 import 'package:continuation_control/models/doing.dart';
-import 'package:continuation_control/widgets/today_continuation/doing_progress_factor.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
+import 'package:continuation_control/widgets/base/base_button.dart';
+import 'package:continuation_control/widgets/base/base_text_button.dart';
 import 'package:flutter/material.dart';
 
 class TodayContinuationTile extends StatefulWidget {
+  final String continuationId;
+  final DoingViewModel doingViewModel;
   final Doing doing;
 
   const TodayContinuationTile({
     super.key,
+    required this.continuationId,
+    required this.doingViewModel,
     required this.doing,
   });
 
@@ -15,6 +22,40 @@ class TodayContinuationTile extends StatefulWidget {
 }
 
 class TodayContinuationTileState extends State<TodayContinuationTile> {
+  void moveEditDoing(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      Routes.editDoing,
+      arguments: {
+        'continuation_id': widget.continuationId,
+        'doing_view_model': widget.doingViewModel,
+        'doing': widget.doing,
+      },
+    );
+  }
+
+  Future<void> handleUpdateDoing() async {
+    await widget.doingViewModel.updateDoing(
+      Doing(
+        doingId: widget.doing.doingId,
+        continuationId: widget.doing.continuationId,
+        name: widget.doing.name,
+        maxPeriod: widget.doing.maxPeriod,
+        currentPeriod: widget.doing.currentPeriod + 1,
+        goalPeriod: widget.doing.goalPeriod,
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('継続を更新しました'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,8 +65,35 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          DoingProgressFactor(
-            doing: widget.doing,
+          Text(
+            widget.doing.name,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+          BaseButton(
+            label: '継続達成',
+            onPressed: handleUpdateDoing,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BaseTextButton(
+                label: '編集',
+                onPressed: () => moveEditDoing(context),
+              ),
+              Text(
+                '${widget.doing.currentPeriod}日継続中',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ],
       ),

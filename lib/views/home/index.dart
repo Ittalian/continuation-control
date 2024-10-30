@@ -24,7 +24,7 @@ class IndexState extends State<Index> {
     });
   }
 
-  void moveAdd(
+  void moveAddContinuation(
       BuildContext context, ContinuationViewModel continuationViewModel) {
     Navigator.pushNamed(
       context,
@@ -68,7 +68,7 @@ class IndexState extends State<Index> {
               barList: bar_lists.index,
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => moveAdd(context, continuationViewModel),
+              onPressed: () => moveAddContinuation(context, continuationViewModel),
               child: const Icon(Icons.add),
             ),
           ),
