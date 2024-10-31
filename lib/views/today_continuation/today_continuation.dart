@@ -2,6 +2,7 @@ import 'package:continuation_control/config/router/routes.dart';
 import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/today_continuation/today_continuation_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:continuation_control/utils/constants/widgets.dart' as constant_widgets;
 
 class TodayContinuation extends StatelessWidget {
   final String continuationId;
@@ -26,7 +27,11 @@ class TodayContinuation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return doingViewModel.doings.isEmpty
+    ?
+    constant_widgets.emptyWidget
+    :
+    Scaffold(
       backgroundColor: Colors.white.withOpacity(0),
       body: SingleChildScrollView(
         child: Column(
