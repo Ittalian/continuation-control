@@ -1,6 +1,7 @@
 import 'package:continuation_control/models/doing.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:continuation_control/utils/constants/widgets.dart' as constant_widgets;
 
 class ConfirmBar extends StatelessWidget {
   final List<Doing> doings;
@@ -13,7 +14,11 @@ class ConfirmBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return Center(
+    return doings.isEmpty
+    ?
+    constant_widgets.emptyWidget
+    :
+    Center(
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(

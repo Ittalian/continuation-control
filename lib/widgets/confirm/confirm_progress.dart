@@ -1,6 +1,7 @@
 import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/widgets/confirm/confirm_progress_factor.dart';
 import 'package:flutter/material.dart';
+import 'package:continuation_control/utils/constants/widgets.dart' as constant_widgets;
 
 class ConfirmProgress extends StatelessWidget {
   final List<Doing> doings;
@@ -12,7 +13,11 @@ class ConfirmProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return doings.isEmpty
+    ?
+    constant_widgets.emptyWidget
+    :
+    SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

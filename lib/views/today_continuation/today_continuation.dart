@@ -3,6 +3,8 @@ import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/today_continuation/today_continuation_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:continuation_control/utils/constants/widgets.dart'
+    as constant_widgets;
 
 class TodayContinuation extends StatelessWidget {
   final String continuationId;
@@ -29,26 +31,28 @@ class TodayContinuation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseImageContainer(
       imagePath: 'images/today_continuation.jpg',
-      child: Scaffold(
-        backgroundColor: Colors.white.withOpacity(0),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (var doing in doingViewModel.doings)
-                TodayContinuationTile(
-                  continuationId: continuationId,
-                  doingViewModel: doingViewModel,
-                  doing: doing,
+      child: doingViewModel.doings.isEmpty
+          ? constant_widgets.emptyWidget
+          : Scaffold(
+              backgroundColor: Colors.white.withOpacity(0),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var doing in doingViewModel.doings)
+                      TodayContinuationTile(
+                        continuationId: continuationId,
+                        doingViewModel: doingViewModel,
+                        doing: doing,
+                      ),
+                  ],
                 ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => moveAddDoing(context, doingViewModel),
-          child: const Icon(Icons.add),
-        ),
-      ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => moveAddDoing(context, doingViewModel),
+                child: const Icon(Icons.add),
+              ),
+            ),
     );
   }
 }
