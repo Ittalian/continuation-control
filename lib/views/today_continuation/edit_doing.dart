@@ -1,6 +1,5 @@
 import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/view_models/doing_view_model.dart';
-import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/today_continuation/edit_doing_content.dart';
 import 'package:flutter/material.dart';
 
@@ -18,15 +17,12 @@ class EditDoing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseImageContainer(
-      imagePath: 'images/edit_doing.jpg',
-      child: Scaffold(
-        backgroundColor: Colors.white.withOpacity(0),
-        body: EditDoingContent(
-          continuationId: continuationId,
-          doingViewModel: doingViewModel,
-          doing: doing,
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0),
+      body: EditDoingContent(
+        continuationId: continuationId,
+        doingViewModel: doingViewModel,
+        doing: doing,
       ),
     );
   }
