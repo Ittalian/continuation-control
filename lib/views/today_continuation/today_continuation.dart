@@ -1,5 +1,5 @@
 import 'package:continuation_control/config/router/routes.dart';
-import 'package:continuation_control/view_models/doing_view_model.dart';
+import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/today_continuation/today_continuation_tile.dart';
 import 'package:flutter/material.dart';
@@ -8,21 +8,21 @@ import 'package:continuation_control/utils/constants/widgets.dart'
 
 class TodayContinuation extends StatelessWidget {
   final String continuationId;
-  final DoingViewModel doingViewModel;
+  final List<Doing> doings;
 
   const TodayContinuation({
     super.key,
     required this.continuationId,
-    required this.doingViewModel,
+    required this.doings,
   });
 
-  moveAddDoing(BuildContext context, DoingViewModel doingViewModel) {
+  moveAddDoing(BuildContext context) {
     Navigator.pushNamed(
       context,
       Routes.addDoing,
       arguments: {
         'continuation_id': continuationId,
-        'doing_view_model': doingViewModel,
+        'doings': doings,
       },
     );
   }
@@ -31,7 +31,7 @@ class TodayContinuation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseImageContainer(
       imagePath: 'images/today_continuation.jpg',
-      child: doingViewModel.doings.isEmpty
+      child: doings.isEmpty
           ? constant_widgets.emptyWidget
           : Scaffold(
               backgroundColor: Colors.white.withOpacity(0),
@@ -39,17 +39,17 @@ class TodayContinuation extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (var doing in doingViewModel.doings)
+                    for (var doing in doings)
                       TodayContinuationTile(
                         continuationId: continuationId,
-                        doingViewModel: doingViewModel,
+                        doings: doings,
                         doing: doing,
                       ),
                   ],
                 ),
               ),
               floatingActionButton: FloatingActionButton(
-                onPressed: () => moveAddDoing(context, doingViewModel),
+                onPressed: () => moveAddDoing(context),
                 child: const Icon(Icons.add),
               ),
             ),

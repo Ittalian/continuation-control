@@ -2,29 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:continuation_control/models/doing.dart';
 
 class DoingService {
-  final db = FirebaseFirestore.instance.collection('Doing');
+  final db = FirebaseFirestore.instance;
 
-  Stream<List<Doing>> getDoingById(String continuationId) {
+  Future<void> addDoing(String continuationId, Doing doing) {
     return db
-        .where('continuation_id', isEqualTo: continuationId)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Doing.fromMap(doc.data(), doc.id))
-            .toList());
+        .collection('Continuation')
+        .doc(continuationId)
+        .collection('Doing')
+        .add(doing.toMap());
   }
 
-  Future<void> addDoing(Doing doing) {
-    return db.add(doing.toMap());
-  }
-
-  Future<void> updateDoing(Doing doing) {
+  Future<void> updateDoing(String continuationId, Doing doing) {
     if (doing.currentPeriod > doing.maxPeriod) {
       doing = doing.maxPeriodUpdatedDoing(maxPeriod: doing.currentPeriod);
     }
-    return db.doc(doing.doingId).set(doing.toMap());
+    return db
+        .collection('Continuation')
+        .doc(continuationId)
+        .collection('Doing')
+        .doc(doing.doingId)
+        .set(doing.toMap());
   }
 
-  Future<void> deleteDoing(String doingId) {
-    return db.doc(doingId).delete();
+  Future<void> deleteDoing(String continuationId, String doingId) {
+    return db
+        .collection('Continuation')
+        .doc(continuationId)
+        .collection('Doing')
+        .doc(doingId)
+        .delete();
   }
 }

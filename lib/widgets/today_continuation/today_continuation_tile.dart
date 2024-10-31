@@ -4,16 +4,17 @@ import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/base/base_button.dart';
 import 'package:continuation_control/widgets/base/base_text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TodayContinuationTile extends StatefulWidget {
   final String continuationId;
-  final DoingViewModel doingViewModel;
+  final List<Doing> doings;
   final Doing doing;
 
   const TodayContinuationTile({
     super.key,
     required this.continuationId,
-    required this.doingViewModel,
+    required this.doings,
     required this.doing,
   });
 
@@ -28,17 +29,17 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
       Routes.editDoing,
       arguments: {
         'continuation_id': widget.continuationId,
-        'doing_view_model': widget.doingViewModel,
+        'doings': widget.doings,
         'doing': widget.doing,
       },
     );
   }
 
-  Future<void> handleUpdateDoing() async {
-    await widget.doingViewModel.updateDoing(
+  Future<void> handleUpdateDoing(DoingViewModel doingViewModel) async {
+    await doingViewModel.updateDoing(
+      widget.continuationId,
       Doing(
         doingId: widget.doing.doingId,
-        continuationId: widget.doing.continuationId,
         name: widget.doing.name,
         maxPeriod: widget.doing.maxPeriod,
         currentPeriod: widget.doing.currentPeriod + 1,
@@ -58,6 +59,7 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
 
   @override
   Widget build(BuildContext context) {
+    final doingViewModel = context.watch<DoingViewModel>();
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
@@ -77,7 +79,9 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
           ),
           BaseButton(
             label: '継続達成',
-            onPressed: handleUpdateDoing,
+            onPressed: () async {
+              await handleUpdateDoing(doingViewModel);
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

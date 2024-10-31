@@ -1,33 +1,50 @@
 import 'package:continuation_control/models/continuation.dart';
+import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/services/continuation_service.dart';
 import 'package:flutter/foundation.dart';
 
 class ContinuationViewModel extends ChangeNotifier {
   final ContinuationService continuationService;
 
-  Map<String, List<Continuation>> _continuationMap = {};
-  Map<String, List<Continuation>> get continuationMap => _continuationMap;
+  Map<String, Map<Continuation, List<Doing>>> _continuationMap = {};
+  Map<String, Map<Continuation, List<Doing>>> get continuationMap =>
+      _continuationMap;
 
   ContinuationViewModel(this.continuationService) {
     fetchContinuations();
   }
 
   void fetchContinuations() {
-    continuationService.getContinuations().listen((continuationMap) {
-      _continuationMap = continuationMap;
-      notifyListeners();
-    });
+    _continuationMap.clear();
+    fetchAndAddContinuationWithDoings('in_progress');
+    fetchAndAddContinuationWithDoings('completed');
+    fetchAndAddContinuationWithDoings('pending');
+  }
+
+  void fetchAndAddContinuationWithDoings(String status) {
+    continuationService.getContinuationWithDoings(status).listen(
+      (continuationWithDoings) {
+        _continuationMap[status] = continuationWithDoings;
+        notifyListeners();
+      },
+      onError: (error) {
+        print('エラーです\n$error');
+      },
+    );
   }
 
   Future<void> addContinuation(Continuation continuation) async {
-    return await continuationService.addContinuation(continuation);
+    await continuationService.addContinuation(continuation);
+    fetchContinuations();
   }
 
   Future<void> updateContinuation(Continuation continuation) async {
-    return await continuationService.updateContinuation(continuation);
+    await continuationService.updateContinuation(continuation);
+    fetchContinuations();
   }
 
   Future<void> deleteContinuation(String continuationId) async {
-    return await continuationService.deleteContinuation(continuationId);
+    await continuationService.deleteContinuation(continuationId);
+    fetchContinuations();
   }
 }

@@ -1,6 +1,5 @@
 class Doing {
   final String? doingId;
-  final String continuationId;
   final String name;
   final int maxPeriod;
   final int currentPeriod;
@@ -8,7 +7,6 @@ class Doing {
 
   Doing({
     this.doingId,
-    required this.continuationId,
     required this.name,
     required this.maxPeriod,
     required this.currentPeriod,
@@ -18,7 +16,6 @@ class Doing {
   factory Doing.fromMap(Map<String, dynamic> map, String documentId) {
     return Doing(
       doingId: documentId,
-      continuationId: map['continuation_id'],
       name: map['name'],
       maxPeriod: map['max_period'],
       currentPeriod: map['current_period'],
@@ -28,7 +25,6 @@ class Doing {
 
   Map<String, dynamic> toMap() {
     return {
-      'continuation_id': continuationId,
       'name': name,
       'max_period': maxPeriod,
       'current_period': currentPeriod,
@@ -39,7 +35,6 @@ class Doing {
   Doing maxPeriodUpdatedDoing({int? maxPeriod}) {
     return Doing(
       doingId: doingId,
-      continuationId: continuationId,
       name: name,
       maxPeriod: maxPeriod ?? this.maxPeriod,
       currentPeriod: currentPeriod,

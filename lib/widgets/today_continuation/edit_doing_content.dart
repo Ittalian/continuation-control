@@ -5,16 +5,17 @@ import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/base/base_button.dart';
 import 'package:continuation_control/widgets/base/base_numberfield.dart';
 import 'package:continuation_control/widgets/base/base_textform_field.dart';
+import 'package:provider/provider.dart';
 
 class EditDoingContent extends StatefulWidget {
   final String continuationId;
-  final DoingViewModel doingViewModel;
+  final List<Doing> doings;
   final Doing? doing;
 
   const EditDoingContent({
     super.key,
     required this.continuationId,
-    required this.doingViewModel,
+    required this.doings,
     this.doing,
   });
 
@@ -47,28 +48,36 @@ class EditDoingContentState extends State<EditDoingContent> {
     });
   }
 
-  Future<void> handleSaveDoing(BuildContext context) async {
+  Future<void> handleSaveDoing(
+      BuildContext context, DoingViewModel doingViewModel) async {
     if (widget.doing == null) {
-      await widget.doingViewModel.addDoing(
-        Doing(
-          continuationId: widget.continuationId,
-          name: name,
-          currentPeriod: 0,
-          maxPeriod: 0,
-          goalPeriod: int.parse(goalPeriod),
-        ),
+      Doing doing = Doing(
+        name: name,
+        currentPeriod: 0,
+        maxPeriod: 0,
+        goalPeriod: int.parse(goalPeriod),
       );
+      await doingViewModel.addDoing(
+        widget.continuationId,
+        doing,
+      );
+      widget.doings.add(doing);
     } else {
-      await widget.doingViewModel.updateDoing(
-        Doing(
-          doingId: widget.doing!.doingId,
-          continuationId: widget.continuationId,
-          name: name,
-          currentPeriod: widget.doing!.currentPeriod,
-          maxPeriod: widget.doing!.maxPeriod,
-          goalPeriod: int.parse(goalPeriod),
-        ),
+      Doing doing = Doing(
+        doingId: widget.doing!.doingId,
+        name: name,
+        currentPeriod: widget.doing!.currentPeriod,
+        maxPeriod: widget.doing!.maxPeriod,
+        goalPeriod: int.parse(goalPeriod),
       );
+      await doingViewModel.updateDoing(
+        widget.continuationId,
+        doing,
+      );
+      int index = widget.doings.indexWhere(
+        (previousDoing) => previousDoing.doingId == doing.doingId,
+      );
+      widget.doings[index] = doing;
     }
     moveTodayCotinuation(context);
   }
@@ -79,12 +88,14 @@ class EditDoingContentState extends State<EditDoingContent> {
       Routes.confirm,
       arguments: {
         'continuation_id': widget.continuationId,
+        'doings': widget.doings,
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final doingViewModel = context.watch<DoingViewModel>();
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0),
       body: Column(
@@ -103,7 +114,7 @@ class EditDoingContentState extends State<EditDoingContent> {
           BaseButton(
             label: '保存',
             onPressed: () async {
-              await handleSaveDoing(context);
+              await handleSaveDoing(context, doingViewModel);
             },
           ),
         ],

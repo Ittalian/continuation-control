@@ -1,7 +1,6 @@
 import 'package:continuation_control/models/continuation.dart';
 import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
-import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/views/confirm/confirm.dart';
 import 'package:continuation_control/views/edit/edit.dart';
 import 'package:continuation_control/views/home/index.dart';
@@ -44,6 +43,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => Confirm(
             continuationId: confirmOptions['continuation_id'] as String,
+            doings: confirmOptions['doings'] as List<Doing>,
           ),
         );
       case addDoing:
@@ -51,18 +51,16 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => AddDoing(
             continuationId: addDoingOptions['continuation_id'] as String,
-            doingViewModel:
-                addDoingOptions['doing_view_model'] as DoingViewModel,
+            doings: addDoingOptions['doings'] as List<Doing>,
           ),
         );
       case editDoing:
-        final addDoingOptions = settings.arguments as Map;
+        final editDoingOptions = settings.arguments as Map;
         return MaterialPageRoute(
           builder: (_) => EditDoing(
-            continuationId: addDoingOptions['continuation_id'] as String,
-            doingViewModel:
-                addDoingOptions['doing_view_model'] as DoingViewModel,
-            doing: addDoingOptions['doing'] as Doing,
+            continuationId: editDoingOptions['continuation_id'] as String,
+            doings: editDoingOptions['doings'] as List<Doing>,
+            doing: editDoingOptions['doing'] as Doing,
           ),
         );
       default:

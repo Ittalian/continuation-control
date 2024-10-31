@@ -5,8 +5,10 @@ import 'package:continuation_control/widgets/base/base_image_container.dart';
 import 'package:continuation_control/widgets/home/home_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:continuation_control/utils/constants/images_pathes.dart' as images_pathes;
-import 'package:continuation_control/utils/constants/bar_lists.dart' as bar_lists;
+import 'package:continuation_control/utils/constants/images_pathes.dart'
+    as images_pathes;
+import 'package:continuation_control/utils/constants/bar_lists.dart'
+    as bar_lists;
 
 class Index extends StatefulWidget {
   const Index({super.key});
@@ -41,23 +43,33 @@ class IndexState extends State<Index> {
       builder: (context, continuationViewModel, child) {
         final continuationMap = continuationViewModel.continuationMap;
 
+        if (continuationMap.length < 3) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        final imagePath = selectIndex < images_pathes.index.length
+            ? images_pathes.index[selectIndex]
+            : images_pathes.index[0];
+
         final pages = [
           HomeIndex(
             continuationViewModel: continuationViewModel,
-            continuations: continuationMap['in_progress'] ?? [],
+            continuationMap: continuationMap['in_progress'] ?? {},
           ),
           HomeIndex(
             continuationViewModel: continuationViewModel,
-            continuations: continuationMap['completed'] ?? [],
+            continuationMap: continuationMap['completed'] ?? {},
           ),
           HomeIndex(
             continuationViewModel: continuationViewModel,
-            continuations: continuationMap['pending'] ?? [],
+            continuationMap: continuationMap['pending'] ?? {},
           ),
         ];
 
         return BaseImageContainer(
-          imagePath: images_pathes.index[selectIndex],
+          imagePath: imagePath,
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white.withOpacity(0),
@@ -68,7 +80,8 @@ class IndexState extends State<Index> {
               barList: bar_lists.index,
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => moveAddContinuation(context, continuationViewModel),
+              onPressed: () =>
+                  moveAddContinuation(context, continuationViewModel),
               child: const Icon(Icons.add),
             ),
           ),

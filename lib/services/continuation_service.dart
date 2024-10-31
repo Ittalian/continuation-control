@@ -1,8 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:continuation_control/models/continuation.dart';
+import 'package:continuation_control/models/doing.dart';
 
 class ContinuationService {
   final db = FirebaseFirestore.instance.collection('Continuation');
+
+  Stream<Map<Continuation, List<Doing>>> getContinuationWithDoings(
+      String status) {
+    return db.where('status', isEqualTo: status).snapshots().asyncMap(
+      (continuationSnapshot) async {
+        Map<Continuation, List<Doing>> continuationWithDoings = {};
+
+        for (var continuationDoc in continuationSnapshot.docs) {
+          Continuation continuation = Continuation.fromMap(
+            continuationDoc.data(),
+            continuationDoc.id,
+          );
+
+          final doingSnapshot =
+              await db.doc(continuationDoc.id).collection('Doing').get();
+          List<Doing> doings = doingSnapshot.docs
+              .map((doingDoc) => Doing.fromMap(doingDoc.data(), doingDoc.id))
+              .toList();
+
+          continuationWithDoings[continuation] = doings;
+        }
+
+        return continuationWithDoings;
+      },
+    );
+  }
 
   Stream<Map<String, List<Continuation>>> getContinuations() {
     return db.snapshots().map((snapshot) {
