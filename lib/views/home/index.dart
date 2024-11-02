@@ -11,7 +11,9 @@ import 'package:continuation_control/utils/constants/bar_lists.dart'
     as bar_lists;
 
 class Index extends StatefulWidget {
-  const Index({super.key});
+  const Index({
+    super.key,
+  });
 
   @override
   State<Index> createState() => IndexState();

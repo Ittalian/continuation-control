@@ -61,7 +61,6 @@ class EditDoingContentState extends State<EditDoingContent> {
         widget.continuationId,
         doing,
       );
-      widget.doings.add(doing);
     } else {
       Doing doing = Doing(
         doingId: widget.doing!.doingId,
@@ -74,20 +73,17 @@ class EditDoingContentState extends State<EditDoingContent> {
         widget.continuationId,
         doing,
       );
-      int index = widget.doings.indexWhere(
-        (previousDoing) => previousDoing.doingId == doing.doingId,
-      );
-      widget.doings[index] = doing;
     }
-    moveTodayCotinuation(context);
+    moveTodayCotinuation(context, doingViewModel);
   }
 
-  void moveTodayCotinuation(BuildContext context) {
+  void moveTodayCotinuation(BuildContext context, DoingViewModel doingViewModel) {
     Navigator.pushNamed(
       context,
       Routes.confirm,
       arguments: {
         'continuation_id': widget.continuationId,
+        'doing_view_model': doingViewModel,
         'doings': widget.doings,
       },
     );

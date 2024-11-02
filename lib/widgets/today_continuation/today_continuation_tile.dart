@@ -8,13 +8,11 @@ import 'package:provider/provider.dart';
 
 class TodayContinuationTile extends StatefulWidget {
   final String continuationId;
-  final List<Doing> doings;
   final Doing doing;
 
   const TodayContinuationTile({
     super.key,
     required this.continuationId,
-    required this.doings,
     required this.doing,
   });
 
@@ -23,13 +21,23 @@ class TodayContinuationTile extends StatefulWidget {
 }
 
 class TodayContinuationTileState extends State<TodayContinuationTile> {
-  void moveEditDoing(BuildContext context) {
+  int currentPeriod = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      currentPeriod = widget.doing.currentPeriod;
+    });
+  }
+
+  void moveEditDoing(BuildContext context, DoingViewModel doingViewModel) {
     Navigator.pushNamed(
       context,
       Routes.editDoing,
       arguments: {
         'continuation_id': widget.continuationId,
-        'doings': widget.doings,
+        'doings': doingViewModel.doings,
         'doing': widget.doing,
       },
     );
@@ -81,6 +89,9 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
             label: '継続達成',
             onPressed: () async {
               await handleUpdateDoing(doingViewModel);
+              setState(() {
+                currentPeriod += 1;
+              });
             },
           ),
           Row(
@@ -88,10 +99,10 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
             children: [
               BaseTextButton(
                 label: '編集',
-                onPressed: () => moveEditDoing(context),
+                onPressed: () => moveEditDoing(context, doingViewModel),
               ),
               Text(
-                '${widget.doing.currentPeriod}日継続中',
+                '$currentPeriod日継続中',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,

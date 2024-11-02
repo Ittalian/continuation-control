@@ -1,6 +1,7 @@
 import 'package:continuation_control/models/continuation.dart';
 import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/views/confirm/confirm.dart';
 import 'package:continuation_control/views/edit/edit.dart';
 import 'package:continuation_control/views/home/index.dart';
@@ -9,7 +10,7 @@ import 'package:continuation_control/views/today_continuation/edit_doing.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
-  static const String home = '/';
+  static const String home = '/home';
   static const String edit = '/edit';
   static const String add = '/add';
   static const String confirm = '/confirm';
@@ -43,6 +44,8 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => Confirm(
             continuationId: confirmOptions['continuation_id'] as String,
+            doingViewModel:
+                confirmOptions['doing_view_model'] as DoingViewModel,
             doings: confirmOptions['doings'] as List<Doing>,
           ),
         );

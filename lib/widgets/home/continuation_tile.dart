@@ -2,8 +2,10 @@ import 'package:continuation_control/config/router/routes.dart';
 import 'package:continuation_control/models/continuation.dart';
 import 'package:continuation_control/models/doing.dart';
 import 'package:continuation_control/view_models/continuation_view_model.dart';
+import 'package:continuation_control/view_models/doing_view_model.dart';
 import 'package:continuation_control/widgets/base/base_text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContinuationTile extends StatefulWidget {
   final ContinuationViewModel continuationViewModel;
@@ -41,12 +43,17 @@ class ContinuationTileState extends State<ContinuationTile> {
         .deleteContinuation(widget.continuation.continuationId!);
   }
 
-  void moveDoingIndex(BuildContext context) {
+  Future<void> fetchDoings(DoingViewModel doingViewModel, String continuationId) async {
+    doingViewModel.fetchDoings(continuationId);
+  }
+
+  moveDoingIndex(BuildContext context, DoingViewModel doingViewModel) {
     Navigator.pushNamed(
       context,
       Routes.confirm,
       arguments: {
         'continuation_id': widget.continuation.continuationId,
+        'doing_view_model': doingViewModel,
         'doings': widget.doings,
       },
     );
@@ -54,8 +61,15 @@ class ContinuationTileState extends State<ContinuationTile> {
 
   @override
   Widget build(BuildContext context) {
+    final doingViewModel = context.watch<DoingViewModel>();
     return GestureDetector(
-      onTap: () => moveDoingIndex(context),
+      onTap: () async {
+        await fetchDoings(doingViewModel, widget.continuation.continuationId!);
+        moveDoingIndex(
+          context,
+          doingViewModel,
+        );
+      },
       child: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),

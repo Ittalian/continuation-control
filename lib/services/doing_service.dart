@@ -4,6 +4,16 @@ import 'package:continuation_control/models/doing.dart';
 class DoingService {
   final db = FirebaseFirestore.instance;
 
+  Stream<List<Doing>> getDoings(String continuationId) {
+    return db
+        .collection('Continuation')
+        .doc(continuationId)
+        .collection('Doing')
+        .snapshots()
+        .map((snapshot) => snapshot
+          .docs.map((doc) => Doing.fromMap(doc.data(), doc.id)).toList());
+  }
+
   Future<void> addDoing(String continuationId, Doing doing) {
     return db
         .collection('Continuation')
