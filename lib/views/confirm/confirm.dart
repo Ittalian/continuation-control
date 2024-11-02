@@ -31,6 +31,7 @@ class Confirm extends StatefulWidget {
 class ConfirmState extends State<Confirm> {
   var selectIndex = 0;
   List<Widget> pages = [];
+  late List<Doing> doings;
 
   void onTapItem(int index) {
     setState(() {
@@ -38,10 +39,10 @@ class ConfirmState extends State<Confirm> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  Future<void> fetchDoings() async {
+    await widget.doingViewModel.fetchDoings(widget.continuationId);
     setState(() {
+      doings = widget.doingViewModel.doings;
       pages = [
         ConfirmBar(
           doings: widget.doings,
@@ -56,6 +57,15 @@ class ConfirmState extends State<Confirm> {
           continuationId: widget.continuationId,
         ),
       ];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    doings = widget.doings;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchDoings();
     });
   }
 

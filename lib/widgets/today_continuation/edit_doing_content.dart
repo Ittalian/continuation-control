@@ -74,17 +74,19 @@ class EditDoingContentState extends State<EditDoingContent> {
         doing,
       );
     }
+    await doingViewModel.fetchDoings(widget.continuationId);
     moveTodayCotinuation(context, doingViewModel);
   }
 
-  void moveTodayCotinuation(BuildContext context, DoingViewModel doingViewModel) {
+  void moveTodayCotinuation(
+      BuildContext context, DoingViewModel doingViewModel) {
     Navigator.pushNamed(
       context,
       Routes.confirm,
       arguments: {
         'continuation_id': widget.continuationId,
         'doing_view_model': doingViewModel,
-        'doings': widget.doings,
+        'doings': doingViewModel.doings,
       },
     );
   }

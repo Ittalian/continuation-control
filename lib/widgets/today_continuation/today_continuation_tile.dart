@@ -65,6 +65,28 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
     );
   }
 
+  Future<void> handleCanelDoing(DoingViewModel doingViewModel) async {
+    await doingViewModel.updateDoing(
+      widget.continuationId,
+      Doing(
+        doingId: widget.doing.doingId,
+        name: widget.doing.name,
+        maxPeriod: widget.doing.maxPeriod,
+        currentPeriod: 0,
+        goalPeriod: widget.doing.goalPeriod,
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('継続を断念しました'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final doingViewModel = context.watch<DoingViewModel>();
@@ -83,16 +105,33 @@ class TodayContinuationTileState extends State<TodayContinuationTile> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 30),
           ),
-          BaseButton(
-            label: '継続達成',
-            onPressed: () async {
-              await handleUpdateDoing(doingViewModel);
-              setState(() {
-                currentPeriod += 1;
-              });
-            },
+          Container(
+            margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BaseButton(
+                  label: '継続達成',
+                  onPressed: () async {
+                    await handleUpdateDoing(doingViewModel);
+                    setState(() {
+                      currentPeriod += 1;
+                    });
+                  },
+                ),
+                BaseButton(
+                  label: '断念',
+                  onPressed: () async {
+                    await handleCanelDoing(doingViewModel);
+                    setState(() {
+                      currentPeriod = 0;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

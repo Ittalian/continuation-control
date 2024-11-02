@@ -43,8 +43,9 @@ class ContinuationTileState extends State<ContinuationTile> {
         .deleteContinuation(widget.continuation.continuationId!);
   }
 
-  Future<void> fetchDoings(DoingViewModel doingViewModel, String continuationId) async {
-    doingViewModel.fetchDoings(continuationId);
+  Future<void> fetchDoings(
+      DoingViewModel doingViewModel, String continuationId) async {
+    await doingViewModel.fetchDoings(continuationId);
   }
 
   moveDoingIndex(BuildContext context, DoingViewModel doingViewModel) {
@@ -63,13 +64,10 @@ class ContinuationTileState extends State<ContinuationTile> {
   Widget build(BuildContext context) {
     final doingViewModel = context.watch<DoingViewModel>();
     return GestureDetector(
-      onTap: () async {
-        await fetchDoings(doingViewModel, widget.continuation.continuationId!);
-        moveDoingIndex(
-          context,
-          doingViewModel,
-        );
-      },
+      onTap: () => moveDoingIndex(
+        context,
+        doingViewModel,
+      ),
       child: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),

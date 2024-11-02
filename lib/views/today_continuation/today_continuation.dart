@@ -35,11 +35,11 @@ class TodayContinuation extends StatelessWidget {
     doingViewModel.fetchDoings(continuationId);
     return BaseImageContainer(
       imagePath: 'images/today_continuation.jpg',
-      child: doingViewModel.doings.isEmpty
-          ? constant_widgets.emptyWidget
-          : Scaffold(
-              backgroundColor: Colors.white.withOpacity(0),
-              body: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: Colors.white.withOpacity(0),
+        body: doingViewModel.doings.isEmpty
+            ? constant_widgets.emptyWidget
+            : SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -51,12 +51,13 @@ class TodayContinuation extends StatelessWidget {
                   ],
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
-                heroTag: 'add_doing',
-                onPressed: () => moveAddDoing(context),
-                child: const Icon(Icons.add),
-              ),
-            ),
+        floatingActionButton: FloatingActionButton(
+          heroTag: 'add_doing',
+          onPressed: () => moveAddDoing(context),
+          child: const Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
     );
   }
 }
